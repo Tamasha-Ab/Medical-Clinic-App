@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Import the LoginPage for navigation
+import 'login_page.dart';
 
 class RegistrationSuccessPage extends StatelessWidget {
   const RegistrationSuccessPage({super.key});
@@ -7,7 +7,7 @@ class RegistrationSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 155, 239, 237), // Light blue background color
+      backgroundColor: const Color.fromARGB(255, 155, 239, 237),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +36,7 @@ class RegistrationSuccessPage extends StatelessWidget {
             const SizedBox(height: 10),
             Image.network(
               'https://s3-media0.fl.yelpcdn.com/bphoto/kROaBMMNs2u1t9RHYMbv9g/1000s.jpg',
-              width: 80, // Adjust size as needed
+              width: 80,
               height: 80,
             ),
             const SizedBox(height: 30),
@@ -63,11 +63,11 @@ class RegistrationSuccessPage extends StatelessWidget {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),
-                  (route) => false, // Clear all previous routes
+                  (route) => false, 
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Blue color for button
+                backgroundColor: Colors.blue, 
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

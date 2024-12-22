@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart';
 
 class HomePage extends StatelessWidget {
   final String userName;
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'HI !\n$userName',
+                      'Hi !\n$userName',
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -56,7 +57,11 @@ class HomePage extends StatelessWidget {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context); // Log out functionality
+                        // Log out and navigate back to LoginPage
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       child: const Text('Log Out'),
@@ -109,25 +114,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Care Plus App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(userName: 'abcd'),
     );
   }
 }
