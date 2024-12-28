@@ -56,10 +56,7 @@ router.post('/register', async (req, res) => {
     });
 
     // Hash the password before saving
-    console.log('Password before hashing:', password);
     newPatient.password = await bcrypt.hash(password, 10);
-    console.log('Password after hashing (to be saved in DB):', newPatient.password);
-
 
     await newPatient.save();
     res.status(201).send('Patient registered successfully');
@@ -72,26 +69,17 @@ router.post('/register', async (req, res) => {
 // Login endpoint
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  console.log('Login attempt:', { username, password }); 
 
   try {
     // Find the patient by username
     const patient = await Patient.findOne({ username });
     if (!patient) {
-      console.log('Invalid login attempt: User not found.'); // Log if user not found
       return res.status(400).send('Invalid username or password.');
     }
 
-    console.log('Patient found:', patient); // Log patient found
-    console.log('Hashed Password from DB:', patient.password); // Log stored hash
-
     // Validate the password
     const validPassword = await bcrypt.compare(password, patient.password);
-    console.log('Comparing with Plain Password:', password); // Log the input password
-    console.log('Password Comparison Result:', validPassword); // Log the result of the comparison
-
     if (!validPassword) {
-      console.log('Invalid login attempt: Incorrect password.'); // Log invalid password
       return res.status(400).send('Invalid username or password.');
     }
 
@@ -99,19 +87,36 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ _id: patient._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
-    console.log('Generated JWT Token:', token); // Log generated token
 
     // Send the token back to the client
-    res.json({ token });
+    res.json({ token, patientId: patient._id });
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).send('Server error');
   }
 });
 
-// Example of a protected route
+// Protected route example
 router.get('/protected', authenticateToken, (req, res) => {
   res.send('This is a protected patient route. User ID: ' + req.user._id);
+});
+
+// Fetch patient details by ID
+router.get('/patient/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the patient by ID and exclude the password
+    const patient = await Patient.findById(id).select('-password');
+    if (!patient) {
+      return res.status(404).send('Patient not found');
+    }
+
+    res.json(patient);
+  } catch (error) {
+    console.error('Error fetching patient details:', error);
+    res.status(500).send('Server error: ' + error.message);
+  }
 });
 
 module.exports = router;

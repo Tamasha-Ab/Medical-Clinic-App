@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'generalPatientInformation.dart'; // Updated import
+import 'view_profile.dart';
 
 class HomePage extends StatelessWidget {
   final String userName;
@@ -11,7 +13,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        color: const Color.fromARGB(255, 255, 255, 255), // Background color fills whole screen
+        color: const Color.fromARGB(255, 255, 255, 255), // Background color fills the whole screen
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch, // Ensures the Row fills the screen height
           children: [
@@ -32,12 +34,34 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Navigate to GeneralPatientInformation page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const GeneralPatientInformation()), // Updated navigation
+                        );
+                      },
                       style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 99, 181, 249)),
                       child: const Text('Edit Your Profile'),
                     ),
                     const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navigate to the ViewProfile page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewProfile(userName: userName), // Pass userName to ViewProfile
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 99, 181, 249)),
+                      child: const Text('View Your Profile'),
+                    ),
+                    const SizedBox(height: 20),
                     for (var text in [
+                      'View Your Profile',
                       'Make an Appointment',
                       'View Test Results',
                       'View Prescription',
